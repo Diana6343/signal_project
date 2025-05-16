@@ -6,30 +6,35 @@ import com.cardio_generator.outputs.OutputStrategy;
 
 public class AlertGenerator implements PatientDataGenerator {
 
-    public static final Random randomGenerator = new Random();
-    private boolean[] AlertStates; // false = resolved, true = pressed
+    // Changed constant name to UPPER_SNAKE_CASE to comply with Google Java Style Guide
+    public static final Random RANDOM_GENERATOR = new Random();
+
+    // Changed variable name to camelCase to comply with Google Java Style Guide
+    private boolean[] alertStates; // false = resolved, true = pressed
 
     public AlertGenerator(int patientCount) {
-        AlertStates = new boolean[patientCount + 1];
+        // Changed variable name to camelCase to comply with Google Java Style Guide
+        alertStates = new boolean[patientCount + 1];
     }
 
     @Override
     public void generate(int patientId, OutputStrategy outputStrategy) {
         try {
-            if (AlertStates[patientId]) {
-                if (randomGenerator.nextDouble() < 0.9) { // 90% chance to resolve
-                    AlertStates[patientId] = false;
-                    // Output the alert
+            if (alertStates[patientId]) {
+                if (RANDOM_GENERATOR.nextDouble() < 0.9) { // 90% chance to resolve
+                    alertStates[patientId] = false;
                     outputStrategy.output(patientId, System.currentTimeMillis(), "Alert", "resolved");
                 }
             } else {
-                double Lambda = 0.1; // Average rate (alerts per period), adjust based on desired frequency
-                double p = -Math.expm1(-Lambda); // Probability of at least one alert in the period
-                boolean alertTriggered = randomGenerator.nextDouble() < p;
+                // Changed variable name to camelCase to comply with Google Java Style Guide
+                double lambda = 0.1; // Average rate (alerts per period), adjust based on desired frequency
 
+                // Changed variable name to camelCase to comply with Google Java Style Guide
+                double probability = -Math.expm1(-lambda);
+
+                boolean alertTriggered = RANDOM_GENERATOR.nextDouble() < probability;
                 if (alertTriggered) {
-                    AlertStates[patientId] = true;
-                    // Output the alert
+                    alertStates[patientId] = true;
                     outputStrategy.output(patientId, System.currentTimeMillis(), "Alert", "triggered");
                 }
             }
