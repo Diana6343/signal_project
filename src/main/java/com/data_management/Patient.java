@@ -62,4 +62,9 @@ public class Patient {
         }
         return recordsInRange;
     }
+
+
+    public int getPatientId() {
+        return patientId;
+    }
 }

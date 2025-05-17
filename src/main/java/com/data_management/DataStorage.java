@@ -1,10 +1,12 @@
 package com.data_management;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.alerts.AlertGenerator;
+import com.data_management.data_reader_impl.FileDataReader;
 
 /**
  * Manages storage and retrieval of patient data within a healthcare monitoring
@@ -82,7 +84,7 @@ public class DataStorage {
      * 
      * @param args command line arguments
      */
-    public static void main(String[] args) {
+/*    public static void main(String[] args) {
         // DataReader is not defined in this scope, should be initialized appropriately.
         // DataReader reader = new SomeDataReaderImplementation("path/to/data");
         DataStorage storage = new DataStorage();
@@ -107,5 +109,26 @@ public class DataStorage {
         for (Patient patient : storage.getAllPatients()) {
             alertGenerator.evaluateData(patient);
         }
+    }*/
+
+    public static void main(String[] args) {
+        DataStorage dataStorage = new DataStorage();
+        DataReader reader = new FileDataReader("src/main/resources/path_data_patient/dataPatient.csv");
+        try {
+            reader.readData(dataStorage);
+            // Print stored records for verification
+            for (Patient patient : dataStorage.getAllPatients()) {
+                List<PatientRecord> records = dataStorage.getRecords(patient.getPatientId(), 0, Long.MAX_VALUE);
+                for (PatientRecord record : records) {
+                    System.out.println("Patient " + record.getPatientId() + ": " +
+                            record.getRecordType() + " = " + record.getMeasurementValue() +
+                            " at " + record.getTimestamp());
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+
 }
