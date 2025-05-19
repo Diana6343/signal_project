@@ -1,15 +1,16 @@
 package com.alerts;
 
-// Represents an alert
 public class Alert {
     private String patientId;
     private String condition;
     private long timestamp;
+    private String alertType; // New field to distinguish alert types
 
-    public Alert(String patientId, String condition, long timestamp) {
+    public Alert(String patientId, String condition, long timestamp, String alertType) {
         this.patientId = patientId;
         this.condition = condition;
         this.timestamp = timestamp;
+        this.alertType = alertType;
     }
 
     public String getPatientId() {
@@ -22,5 +23,9 @@ public class Alert {
 
     public long getTimestamp() {
         return timestamp;
+    }
+
+    public String getAlertType() {
+        return alertType;
     }
 }
